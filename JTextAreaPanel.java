@@ -16,8 +16,6 @@
 
 // Class imports.
 import java.awt.*;            // Required for AWT widgets.
-import java.awt.event.*;      // Required for AWT events.
-import java.lang.*;           // Required for general Java language use.
 import javax.swing.*;         // Required for Swing widgets.
 import javax.swing.text.*;    // Required for wrappers to JTextArea().
 import java.util.*;           // Required for using a Vector().
@@ -37,7 +35,7 @@ public class JTextAreaPanel extends JPanel
   private int vIndex = 0;
 
   // Define and initialize private Object variable.
-  private Vector inMessage = new Vector(1);
+  private ArrayList<Integer> inMessage = new ArrayList<>();
 
   // ---------------------------------/
   // Define AWT and Swing objects.
@@ -72,8 +70,12 @@ public class JTextAreaPanel extends JPanel
   // Define override constructor.
   protected JTextAreaPanel(int columns,int rows)
   {
+      System.out.println("CreatingNewJTextAreaPanel");
+      System.out.println(String.valueOf(columns));
+      System.out.println(String.valueOf(rows));
+      return;
     // Initiate set methods.
-    buildPanel(columns,rows);
+//    buildPanel(columns,rows);
 
   } // End of override constructor.
 
@@ -196,8 +198,8 @@ public class JTextAreaPanel extends JPanel
     } // End of try block.
     catch(BadLocationException e)
     {
-      // Catch and throw wrapped exception.
-      new Throwable(e.getMessage());
+        // Catch and throw wrapped exception.
+        Throwable retValue = new Throwable(e.getMessage());
 
     } // End of catch block.
 
@@ -279,7 +281,7 @@ public class JTextAreaPanel extends JPanel
     if (isTextAreaEmpty() && !inMessage.isEmpty())
     {
       // Ensure cast-safe operations.
-      if (inMessage.get(vIndex) instanceof String)
+      if (String.valueOf(inMessage.get(vIndex)) instanceof String)
       {
         // Display received message.
         setText(inMessage.get(vIndex).toString());
@@ -293,7 +295,7 @@ public class JTextAreaPanel extends JPanel
       if (!inMessage.isEmpty())
       {
         // Ensure cast-safe operations.
-        if (inMessage.get(vIndex) instanceof String)
+        if (String.valueOf(inMessage.get(vIndex)) instanceof String)
         {
           // Append message to display and display messages.
           append(inMessage.get(vIndex).toString());
@@ -319,6 +321,7 @@ public class JTextAreaPanel extends JPanel
 
   // Define a getPreferredSize() wrapper method.
   // Pulic specifier required to override JComponent getPreferredSize().
+  @Override
   public Dimension getPreferredSize()
   {
     // Get JTextArea preferred size.
@@ -412,14 +415,6 @@ public class JTextAreaPanel extends JPanel
 
   // -------------------------------------------------------------------------/
 
-  // Define a isManagingFocus() wrapper method.
-  public boolean isManagingFocus()
-  {
-    // Get JTextArea managing focus status.
-    return ta.isManagingFocus();
-
-  } // End of isManagingFocus() wrapper method.
-
   // -------------------------------------------------------------------------/
 
   // Define a replaceRange() wrapper method.
@@ -485,6 +480,7 @@ public class JTextAreaPanel extends JPanel
   // -------------------------------------------------------------------------/
 
   // Define a setFont() wrapper method.
+  @Override
   public void setFont(Font font)
   {
     // Use try-catch to trap for initialization state where JTextArea has
@@ -518,11 +514,10 @@ public class JTextAreaPanel extends JPanel
     if (!inMessage.isEmpty())
     {
       // Ensure cast-safe operations.
-      if (inMessage.get(vIndex) instanceof String)
+      if (String.valueOf(inMessage.get(vIndex)) instanceof String)
       {
-        // Set message.
-        inMessage.insertElementAt(inMessage.get(vIndex) + (String) msg,vIndex);
-
+          // Set message
+          inMessage.add(inMessage.get(vIndex) + ((int) msg), vIndex);
       } // End of cast evaluation for String.
 
     } // End of if prior message has not been consumed.
@@ -532,7 +527,7 @@ public class JTextAreaPanel extends JPanel
       if (msg instanceof String)
       {
         // Set Object value as message.
-        inMessage.add((String) msg);
+        inMessage.add((int) msg);
 
       } // End of cast evaluation for String.
 

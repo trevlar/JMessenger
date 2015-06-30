@@ -285,9 +285,6 @@ public class JMessagingFrame extends JFrame
   // Define method to return commands.
   private void buildFrame(int width, int height)
   {
-    // Set JFrame title.
-    setTitle("Communicator");
-
     // Initialize and set policies for JScrollPane(s).
     receiverScrollPane = setScrollPaneProperties(new JScrollPane(
 			                     receiver = new JTextAreaPanel(COL,ROW)));
